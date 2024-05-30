@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { Typography, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const API_URL = `https://homi-p50f.onrender.com`;// `http://localhost:3000`;
+const API_URL = process.env.REACT_APP_API_URL;
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: '1rem',

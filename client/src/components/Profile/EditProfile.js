@@ -22,6 +22,8 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const predefinedInterests = [
   "Hiking",
   "Music",
@@ -159,7 +161,7 @@ function EditProfile() {
   const getEmbedding = async (text) => {
     try {
       console.log(`Requesting embedding for: ${text}`);
-      const response = await fetch('http://localhost:3000/api/blitz/get-embeddings', {
+      const response = await fetch(`${API_URL}/api/blitz/get-embeddings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
