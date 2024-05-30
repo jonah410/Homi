@@ -12,10 +12,8 @@ const { getUserGroups } = require('./controllers/groupController');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// app.use(cors({ origin: 'http://localhost:3001' })); for local development
-
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || '*', // for production 
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3001' || 'http://localhost:3000', // Default to localhost:3001 for local dev, 3000 for local build
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
