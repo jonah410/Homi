@@ -34,7 +34,6 @@ const About = () => {
           About the Creator
         </Typography>
         <Typography variant="body1" paragraph>
-          My name is Jonah, and I'm currently a student at the University of Illinois Urbana-Champaign.
           You can view my personal website <a href="https://adaptive-guide-68e.notion.site/Hi-I-m-Jonah-c96647ac5f6640e1a2f52581b0ed26f7" target="_blank" rel="noopener noreferrer">here</a>
         </Typography>
       </Paper>

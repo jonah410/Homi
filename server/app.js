@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3001',  // default for development
+  'https://homi-p50f.onrender.com',
   process.env.CORS_ORIGIN  // environment variable for production
 ].filter(Boolean);  // filter out any undefined or falsy values
 
