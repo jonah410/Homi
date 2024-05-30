@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupsRoutes');
 const taskRoutes = require('./routes/tasksRoutes');
@@ -41,13 +42,13 @@ app.post('/api/blitz/get-embeddings', async (req, res) => {
     }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 // catchall handler: any request that doesn't match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 module.exports = app;
