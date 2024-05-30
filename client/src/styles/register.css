@@ -1,0 +1,31 @@
+.register-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .register-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .register-container .MuiTextField-root {
+    margin-bottom: 20px;
+  }
+  
+  .register-container button {
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: #0072ff;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+  }
+  
+  .register-container button:hover {
+    background-color: #005bb5;
+  }
+  
+  
+  
