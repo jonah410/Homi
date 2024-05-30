@@ -5,8 +5,6 @@ import { updateDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { TextField, Button, Container, Typography, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
-const API_URL = process.env.REACT_APP_API_URL;
-
 const predefinedInterests = [
   "Hiking",
   "Music",
@@ -59,6 +57,7 @@ function SelectInterests() {
   };
 
   const getEmbedding = async (text) => {
+    const API_URL = process.env.REACT_APP_API_URL;
     try {
       console.log(`Requesting embedding for: ${text}`);
       const response = await fetch(`${API_URL}/api/blitz/get-embeddings`, {
