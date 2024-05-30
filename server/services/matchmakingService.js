@@ -7,7 +7,7 @@ const { createGroupChat } = require('../controllers/groupController')
 const { updateDoc, doc } = require('firebase/firestore');
 
 
-const SIMILARITY_THRESHOLD = 0.1; // WE"D PROBABLY WANT .7ish
+const SIMILARITY_THRESHOLD = 0.35; // WE"D PROBABLY WANT .7ish
 const DISTANCE_THRESHOLD = 10; // Distance in kilometers
 
 /* const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);

@@ -4,6 +4,9 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   typography: {
     fontFamily: 'Montserrat, Arial, sans-serif',
+    h2: {
+      fontWeight: 'bold',
+    },
   },
   palette: {
     primary: {
@@ -14,11 +17,6 @@ const theme = createTheme({
     },
     tertiary: {
       main: '#0277bd', // Purple
-    },
-  },
-  typography: {
-    h2: {
-      fontWeight: 'bold',
     },
   },
 });
