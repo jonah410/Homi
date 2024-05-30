@@ -36,8 +36,9 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/matchmaking', matchmakingRoutes);
-app.get('/api/groups/:userId', getUserGroups);
 app.use('/api/groups', groupRoutes);
+
+app.get('/api/groups/:userId', getUserGroups);
 
 app.post('/api/blitz/get-embeddings', async (req, res) => {
     try {

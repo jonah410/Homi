@@ -7,7 +7,7 @@ const { createGroupChat } = require('../controllers/groupController')
 const { updateDoc, doc } = require('firebase/firestore');
 
 
-const SIMILARITY_THRESHOLD = 0.35; // WE"D PROBABLY WANT .7ish
+const SIMILARITY_THRESHOLD = 0.3; // low - .3, high - .7
 const DISTANCE_THRESHOLD = 10; // Distance in kilometers
 
 /* const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
@@ -142,38 +142,43 @@ const sendNotification = async (user) => {
 
 // In your matchmaking function
 const matchUsers = async (userId, location) => {
+  // console.log('Entering matchUsers function');
   try {
+    // console.log('Fetching users from Firestore');
     const usersSnapshot = await db.collection('users').where('looking', '==', true).get();
+    // console.log('Fetched users:', usersSnapshot.size);
+    
     const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     const user = users.find(u => u.id === userId);
-
+    // console.log('Current user:', user);
+    
     if (!user || !user.embeddings || typeof user.embeddings !== 'object') {
       console.error(`User ${userId} does not have valid embeddings`);
       return null;
     }
-
+    
     const userAge = calculateAge(user.dob);
     const userAgeRange = getAgeRange(userAge);
-
+    console.log('User age range:', userAgeRange);
+    
     if (userAgeRange === 'Too Young') {
       console.log(`User ${userId} is too young for matchmaking`);
       return null;
     }
-
+    
     const matchedUsers = users.filter(otherUser => {
       if (otherUser.id === userId) return false;
       if (!otherUser.embeddings || typeof otherUser.embeddings !== 'object') return false;
 
       const otherUserAge = calculateAge(otherUser.dob);
       const otherUserAgeRange = getAgeRange(otherUserAge);
-
       if (otherUserAgeRange !== userAgeRange) return false;
 
       const similarities = Object.keys(user.embeddings).map(interest => {
         if (!otherUser.embeddings[interest]) return 0; // Handle missing embeddings for specific interests
         return calculateCosineSimilarity(user.embeddings[interest], otherUser.embeddings[interest]);
       });
-
+      
       const averageSimilarity = similarities.reduce((acc, val) => acc + val, 0) / similarities.length;
       const distance = calculateDistance(user.location, otherUser.location);
 
@@ -182,6 +187,8 @@ const matchUsers = async (userId, location) => {
       return averageSimilarity > SIMILARITY_THRESHOLD && distance <= DISTANCE_THRESHOLD;
     });
 
+    console.log('Matched users:', matchedUsers);
+    
     if (matchedUsers.length >= 2 && matchedUsers.length <= 4) {
       const interests = [...user.interests, ...matchedUsers.flatMap(u => u.interests)];
       const groupChat = await createGroupChat([userId, ...matchedUsers.map(u => u.id)], interests, location);
@@ -206,6 +213,4 @@ const matchUsers = async (userId, location) => {
 
 module.exports = {
   matchUsers,
-  /* startMatchmaking,*/
 };
-
