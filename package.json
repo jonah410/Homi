@@ -1,13 +1,12 @@
 {
-  "name": "blitz-app",
+  "name": "homi",
   "version": "1.0.0",
   "main": "server/app.js",
   "scripts": {
-    "start": "npm run build && npm run server",
-    "build": "cd client && npm run build",
-    "server": "cd server && node app.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "cd client && npm start"
+    "start": "npm run server",
+    "build": "cd client && npm install && npm run build",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "server": "node server/app.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
