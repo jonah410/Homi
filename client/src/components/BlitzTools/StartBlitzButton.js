@@ -5,6 +5,8 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { Typography, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+const API_URL = 'https://homi-p50f.onrender.com' // || 'http://localhost:3000';
+
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: '1rem',
   padding: '1rem',
@@ -54,7 +56,7 @@ const StartBlitzButton = () => {
 
   const enterMatchmaking = async (data) => {
     try {
-      const response = await fetch('http://localhost:3000/api/matchmaking/start', {
+      const response = await fetch('${API_URL}/api/matchmaking/start', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
