@@ -20,6 +20,8 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 };
 
@@ -43,7 +45,7 @@ app.post('/api/blitz/get-embeddings', async (req, res) => {
         if (!text) {
             return res.status(400).send('Text is required');
         }
-        const embeddings = await getEmbedding(text); // Ensure this function is correctly implemented
+        const embeddings = await getEmbedding(text);
         res.json({ embeddings });
     } catch (error) {
         console.error('Failed to get embeddings:', error.message);
@@ -54,6 +56,12 @@ app.post('/api/blitz/get-embeddings', async (req, res) => {
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
