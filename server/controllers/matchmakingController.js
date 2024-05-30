@@ -1,5 +1,6 @@
 const { matchUsers } = require('../services/matchmakingService');
 const { doc, updateDoc } = require('firebase/firestore');
+const { db } = require('../lib/firebaseUtils');
 
 const startMatchmaking = async (req, res) => {
   const { userId, location } = req.body;
