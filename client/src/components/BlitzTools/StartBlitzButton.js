@@ -56,7 +56,7 @@ const StartBlitzButton = () => {
 
   const enterMatchmaking = async (data) => {
     try {
-      const response = await fetch(`${API_URL}/api/matchmaking/start`, {
+      const response = await fetch(`https://homi-p50f.onrender.com/api/matchmaking/start`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

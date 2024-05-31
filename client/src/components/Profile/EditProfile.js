@@ -161,7 +161,7 @@ function EditProfile() {
   const getEmbedding = async (text) => {
     try {
       console.log(`Requesting embedding for: ${text}`);
-      const response = await fetch(`${API_URL}/api/blitz/get-embeddings`, {
+      const response = await fetch(`https://homi-p50f.onrender.com/api/blitz/get-embeddings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
