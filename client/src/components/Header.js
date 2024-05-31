@@ -10,9 +10,6 @@ const Header = () => {
         <Box style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
           <Link to="/home" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="Homi" style={{ height: '60px', marginRight: '0px' }} />
-            <Typography variant="h6" component="div">
-              Homi
-            </Typography>
           </Link>
         </Box>
         <nav>
