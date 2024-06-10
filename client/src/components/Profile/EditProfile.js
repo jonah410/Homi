@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useDropzone } from 'react-dropzone';
 import {
   TextField,
@@ -235,6 +235,15 @@ function EditProfile() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to logout:', error.message);
+    }
+  };
+
   if (!user) return <div>Loading...</div>;
 
   return (
@@ -336,7 +345,7 @@ function EditProfile() {
             }}
           >
             <input {...getInputProps()} />
-            <Typography>Drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
+            <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
           </Box>
           {profilePicUrl && !imageError && (
             <img
@@ -367,6 +376,15 @@ function EditProfile() {
             style={{ marginTop: '1rem', backgroundColor: 'red' }}
           >
             Cancel
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={handleLogout}
+            style={{ marginTop: '1rem', backgroundColor: 'blue' }}
+          >
+            Logout
           </Button>
         </Box>
       </form>

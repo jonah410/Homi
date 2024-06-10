@@ -130,7 +130,13 @@ const sendNotification = async (user) => {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: 'We found you a group!',
-      text: 'A new group chat has been created for you on Homi. Visit the site to check it out!',
+      html: `
+        <div style="text-align: center;">
+          <img src="https://t4.ftcdn.net/jpg/03/78/40/51/360_F_378405187_PyVLw51NVo3KltNlhUOpKfULdkUOUn7j.jpg" alt="Homi Logo" style="max-width: 100px; margin-bottom: 20px;" />
+          <h1>We found you a group!</h1>
+          <p>A new group chat has been created for you on Homi. Visit the app to check it out!</p>
+        </div>
+      `,
     };
 
     await transporter.sendMail(mailOptions);
@@ -139,6 +145,25 @@ const sendNotification = async (user) => {
     console.error(`Failed to send notification to ${user.email}:`, error);
   }
 };
+
+const updateLookingStatus = async (userId, isLooking, location = {}) => {
+  try {
+    await db.collection('users').doc(userId).update({
+      looking: isLooking,
+      location: location,
+    });
+
+    if (isLooking) {
+      await db.collection('lookingUsers').doc(userId).set({ userId });
+    } else {
+      await db.collection('lookingUsers').doc(userId).delete();
+    }
+  } catch (error) {
+    console.error("Error updating looking status:", error);
+    throw error;
+  }
+};
+
 
 // In your matchmaking function
 const matchUsers = async (userId, location) => {

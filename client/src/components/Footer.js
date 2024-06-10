@@ -1,12 +1,15 @@
 import React from 'react';
-import '../styles/main.css';
+import { Link } from 'react-router-dom';
+import '../styles/footer.css'; // Import the footer CSS
 
 const Footer = () => {
   return (
-    <footer>
-      <p>© 2024 Blitz. All rights reserved.</p>
-    </footer>
+    <div className="footer">
+      <p>© 2024 Homi</p>
+    </div>
   );
 };
 
 export default Footer;
+
+

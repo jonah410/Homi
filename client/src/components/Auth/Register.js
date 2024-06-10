@@ -186,7 +186,7 @@ function Register() {
           }}
         >
           <input {...getInputProps()} />
-          <Typography>Drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
+          <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
         </Box>
         {profilePicUrl && !imageError && (
           <img

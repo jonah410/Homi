@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../config/firebase';
-import { useNavigate, Link } from 'react-router-dom';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
-import { useLoading } from '../../contexts/LoadingContext';
+import { useLoading } from '../contexts/LoadingContext';
 
-function Login() {
+function ForgotPassword() {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
 
-    const handleLogin = async (e) => {
+    const handleForgotPassword = async (e) => {
         e.preventDefault();
         showLoading();
+        setMessage('');
         setError('');
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            console.log("Logged in successfully!");
-            navigate('/home');
+            await sendPasswordResetEmail(auth, email);
+            setMessage('Password reset email sent! Check your inbox.');
         } catch (error) {
-            console.error("Failed to login:", error.message);
-            setError('Incorrect username or password');
+            console.error("Error sending password reset email:", error.message);
+            setError('Failed to send password reset email');
         } finally {
             hideLoading();
         }
@@ -32,30 +32,25 @@ function Login() {
         <Container maxWidth="sm" style={{ marginTop: '5rem', textAlign: 'center' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    Login
+                    Forgot Password
                 </Typography>
+                {message && (
+                    <Typography variant="body1" color="success" gutterBottom>
+                        {message}
+                    </Typography>
+                )}
                 {error && (
                     <Typography variant="body1" color="error" gutterBottom>
                         {error}
                     </Typography>
                 )}
-                <form onSubmit={handleLogin} style={{ width: '100%', marginTop: '1rem' }}>
+                <form onSubmit={handleForgotPassword} style={{ width: '100%', marginTop: '1rem' }}>
                     <TextField
                         fullWidth
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                    />
-                    <TextField
-                        fullWidth
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
                         variant="outlined"
                         margin="normal"
                         required
@@ -67,16 +62,12 @@ function Login() {
                         fullWidth
                         style={{ marginTop: '1.5rem' }}
                     >
-                        Login
+                        Send Password Reset Email
                     </Button>
                 </form>
-                <Link to="/forgot-password" style={{ marginTop: '1rem', display: 'block' }}>
-                    Forgot Password?
-                </Link>
             </Box>
         </Container>
     );
 }
 
-export default Login;
-
+export default ForgotPassword;

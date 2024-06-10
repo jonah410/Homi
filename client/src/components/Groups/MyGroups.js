@@ -3,7 +3,7 @@ import { db } from '../../config/firebase';
 import { getDocs, collection, query, where } from 'firebase/firestore';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Box } from '@mui/material';
 
 const MyGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -49,7 +49,10 @@ const MyGroups = () => {
         <List>
           {groups.map(group => (
             <ListItem button key={group.id} onClick={() => navigate(`/group-chat/${group.id}`)}>
-              <ListItemText primary={`Activity: ${group.task}`} />
+              <ListItemText 
+                primary={`Activity: ${group.task}`} 
+                secondary="Click to enter the chat"
+              />
             </ListItem>
           ))}
         </List>
@@ -63,6 +66,7 @@ const MyGroups = () => {
 };
 
 export default MyGroups;
+
 
 
 

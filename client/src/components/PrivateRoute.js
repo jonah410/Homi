@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { auth, db } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -8,6 +8,7 @@ const PrivateRoute = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profileComplete, setProfileComplete] = useState(false);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,10 +41,10 @@ const PrivateRoute = ({ children }) => {
   if (loading) return null; // or a loading spinner
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
-  if (!profileComplete) {
+  if (!profileComplete && location.pathname !== "/register/interests") {
     return <Navigate to="/register/interests" />;
   }
 
@@ -51,4 +52,5 @@ const PrivateRoute = ({ children }) => {
 };
 
 export default PrivateRoute;
+
 

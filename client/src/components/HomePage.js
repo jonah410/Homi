@@ -1,24 +1,26 @@
 import React from 'react';
 import { Container, Typography, Button, Grid, Paper, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import StartBlitzButton from './BlitzTools/StartBlitzButton'; // Update this to StartTouchGrassButton later
+import StartBlitzButton from './BlitzTools/StartBlitzButton';
 import { styled } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import '../styles/animations.css';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: '2rem',
   padding: '2rem',
   background: '#f5f5f5',
   borderRadius: '8px',
-  textAlign: 'center', // Center content
+  textAlign: 'center',
+  animation: 'fadeIn 2s ease-in-out',
 }));
 
 const HeaderTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
-  color: '#2e7d32',
-  textAlign: 'center', // Center text
+  color: '#00c6ff',
+  textAlign: 'center',
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -26,6 +28,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
   padding: '1rem',
   fontSize: '1rem',
   textTransform: 'none',
+  backgroundColor: '#00c6ff',
+  color: '#fff',
+  fontFamily: 'Wedges, Arial, sans-serif',
+  '&:hover': {
+    backgroundColor: '#0072ff',
+  },
 }));
 
 const IconWrapper = styled('div')(({ theme }) => ({
@@ -43,15 +51,12 @@ const PaperWrapper = styled(Paper)(({ theme }) => ({
 
 const HomePage = () => {
   return (
-    <StyledContainer maxWidth="md">
+    <StyledContainer maxWidth="md" className="fade-in">
       <HeaderTypography variant="h2" gutterBottom>
         This is Homi
       </HeaderTypography>
       <Typography variant="body1" paragraph>
         Connecting you with like-minded people to explore, share, and create memorable experiences together.
-        Whether you're new in town, looking to expand your social circle, or simply want to get out and engage with others,
-        Homi is here to help you find your community.
-        Let's make real connections, together.
       </Typography>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
@@ -64,7 +69,6 @@ const HomePage = () => {
               component={Link}
               to="/profile"
               variant="contained"
-              color="primary"
               fullWidth
             >
               Go to Profile
@@ -77,7 +81,7 @@ const HomePage = () => {
               <TravelExploreIcon fontSize="large" />
             </IconWrapper>
             <Typography variant="h6">Find A Group</Typography>
-            <StartBlitzButton /> {/* Update to StartTouchGrassButton */}
+            <StartBlitzButton />
           </PaperWrapper>
         </Grid>
         <Grid item xs={12}>
@@ -90,7 +94,6 @@ const HomePage = () => {
               component={Link}
               to="/my-groups"
               variant="contained"
-              color="tertiary"
               fullWidth
             >
               View Groups
@@ -103,6 +106,8 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+
 
 
 

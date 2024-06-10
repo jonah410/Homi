@@ -8,8 +8,12 @@ const taskRoutes = require('./routes/tasksRoutes');
 const matchmakingRoutes = require('./routes/matchmakingRoutes');
 const { getEmbedding } = require('./lib/openAIEmbeddings');
 const { getUserGroups } = require('./controllers/groupController');
+const bodyParser = require('body-parser'); // Include body-parser
+const functions = require('firebase-functions');
 
 const app = express();
+app.use(bodyParser.json()); // Add this line to parse JSON bodies
+
 const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
@@ -70,5 +74,7 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 module.exports = app;
+
+// exports.app... for cloud based functions
 
 

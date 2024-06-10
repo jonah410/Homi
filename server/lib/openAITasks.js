@@ -9,13 +9,11 @@ const client = new OpenAI({
 
 const getTaskForGroup = async (interests, location) => {
   const prompt = `
-    You are a smart assistant. Suggest a fun activity for a group of people who are interested in ${interests.join(', ')} and are currently in ${location}. 
-    Make sure the activity is engaging and can be done together, and can be done without a car.
-    Be simple and direct, almost forceful with your tone. But keep it friendly.
-    Make sure that the content of the activity is based on the interest that appears the most frequently in the list.
-    Do not try to accomodate every single interest.
-    If the activity cannot be done in someones home, note a location in your response.
-    Keep your suggestion less than one sentence, and limit your response to 10 words MAXIMUM.
+  As a smart assistant, suggest a specific and fun activity for a group in ${location} who are primarily interested in ${interests.join(', ')}. 
+  Ensure the activity is engaging, can be done together, and does not require a car. 
+  Focus on the most frequent interest from the list. 
+  If the activity cannot be done at home, specify a nearby location. 
+  Your suggestion should be direct, friendly, and concise—less than one sentence, and no more than 10 words.
   `;
 
   try {

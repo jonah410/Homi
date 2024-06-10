@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db, auth } from '../../config/firebase';
 import { collection, query, orderBy, onSnapshot, addDoc, getDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { Container, List, ListItem, ListItemText, TextField, Button, Typography, Paper, Avatar, ListItemAvatar, Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Container, List, ListItem, ListItemText, TextField, Button, Typography, Paper, Avatar, ListItemAvatar, Dialog, DialogTitle, DialogContent, Box } from '@mui/material';
+import styled from 'styled-components';
+
+const NormalText = styled(Typography)`
+  text-transform: none; /* Override all caps */
+`;
 
 const GroupChat = () => {
   const { groupId } = useParams();
@@ -99,11 +104,13 @@ const GroupChat = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Group Chat
-      </Typography>
+      <Box textAlign="center" mt={4} mb={2}>
+        <NormalText variant="h4" gutterBottom>
+          Group Chat
+        </NormalText>
+      </Box>
       <Paper style={{ padding: '20px', marginBottom: '20px' }}>
-        <Typography variant="h6">Group Members</Typography>
+        <NormalText variant="h6">Group Members</NormalText>
         {groupMembers.length > 0 ? (
           groupMembers.map(member => (
             <div key={member.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
@@ -112,16 +119,16 @@ const GroupChat = () => {
                 onClick={() => handleMemberClick(member)} 
                 style={{ cursor: 'pointer', marginRight: '10px' }}
               />
-              <Typography>{member.firstName} {member.lastName ? member.lastName.charAt(0) : ''}.</Typography>
+              <NormalText>{member.firstName} {member.lastName ? member.lastName.charAt(0) : ''}.</NormalText>
             </div>
           ))
         ) : (
-          <Typography>No group members found.</Typography>
+          <NormalText>No group members found.</NormalText>
         )}
       </Paper>
       <Paper style={{ padding: '20px', marginBottom: '20px' }}>
-        <Typography variant="h6">Group Task</Typography>
-        <Typography>{groupTask}</Typography>
+        <NormalText variant="h6">Activity:</NormalText>
+        <NormalText>{groupTask}</NormalText>
       </Paper>
       <List>
         {messages.map(message => (
@@ -130,7 +137,7 @@ const GroupChat = () => {
               <Avatar src={getUserProfilePic(message.userId)} />
             </ListItemAvatar>
             <ListItemText 
-              primary={message.text} 
+              primary={<NormalText>{message.text}</NormalText>}
               secondary={userNames[message.userId] || message.userId} 
             />
           </ListItem>
@@ -152,8 +159,8 @@ const GroupChat = () => {
           <>
             <DialogTitle>{selectedMember.firstName} {selectedMember.lastName}</DialogTitle>
             <DialogContent>
-              <Typography variant="h6">Interests</Typography>
-              <Typography>{selectedMember.interests ? selectedMember.interests.join(', ') : 'No interests provided'}</Typography>
+              <NormalText variant="h6">Interests</NormalText>
+              <NormalText>{selectedMember.interests ? selectedMember.interests.join(', ') : 'No interests provided'}</NormalText>
             </DialogContent>
           </>
         )}
@@ -163,6 +170,8 @@ const GroupChat = () => {
 };
 
 export default GroupChat;
+
+
 
 
 
