@@ -1,1 +1,1 @@
-Homi 1.0 - the first commit
+Homi 1.0.2 - the first user friendly version
