@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useDropzone } from 'react-dropzone';
-import { TextField, Button, Container, Typography, MenuItem, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, MenuItem, Box, CircularProgress, Backdrop } from '@mui/material';
+import heic2any from 'heic2any';
 
 function Register() {
   const navigate = useNavigate();
@@ -21,11 +22,11 @@ function Register() {
   const [imageError, setImageError] = useState(false);
 
   const validateFileType = (file) => {
-    const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/heic'];
     return acceptedTypes.includes(file.type);
   };
 
-  const onDrop = useCallback((acceptedFiles, fileRejections) => {
+  const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
     const validFiles = acceptedFiles.filter(validateFileType);
     if (fileRejections.length > 0 || validFiles.length !== acceptedFiles.length) {
       alert('Please upload only JPEG, PNG, or JPG files.');
@@ -35,13 +36,28 @@ function Register() {
     if (validFiles.length > 0) {
       const file = validFiles[0];
       setLoading(true);
-      uploadProfilePic(file);
+
+      if (file.type === 'image/heic') {
+        try {
+          const convertedBlob = await heic2any({
+            blob: file,
+            toType: 'image/jpeg',
+          });
+          const convertedFile = new File([convertedBlob], file.name.replace(/\.[^/.]+$/, ".jpg"), { type: 'image/jpeg' });
+          await uploadProfilePic(convertedFile);
+        } catch (error) {
+          console.error('Error converting HEIC file:', error);
+          setLoading(false);
+        }
+      } else {
+        await uploadProfilePic(file);
+      }
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: 'image/jpeg, image/png, image/jpg',
+    accept: 'image/jpeg, image/png, image/jpg, image/heic',
     maxFiles: 1
   });
 
@@ -51,10 +67,11 @@ function Register() {
       await uploadBytes(profilePicRef, file);
       const url = await getDownloadURL(profilePicRef);
       setProfilePicUrl(url);
-
+      setImageError(false);
       console.log('Profile picture uploaded successfully!');
     } catch (error) {
       console.error('Error uploading profile picture:', error);
+      setImageError(true);
     } finally {
       setLoading(false);
     }
@@ -186,7 +203,7 @@ function Register() {
           }}
         >
           <input {...getInputProps()} />
-          <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
+          <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png, .heic</Typography>
         </Box>
         {profilePicUrl && !imageError && (
           <img
@@ -197,7 +214,7 @@ function Register() {
           />
         )}
         {imageError && (
-          <Typography color="error">Image failed to load. Please check the URL.</Typography>
+          <Typography color="error">Image failed to load. Please ensure it is one of the supported file types.</Typography>
         )}
         <Button
           fullWidth
@@ -210,11 +227,16 @@ function Register() {
           Register
         </Button>
       </form>
+      <Backdrop style={{ zIndex: 10, color: '#fff' }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }
 
 export default Register;
+
+
 
 
 

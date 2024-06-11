@@ -3,7 +3,7 @@ import { Container, Typography, Box, Paper } from '@mui/material';
 import styled from 'styled-components';
 
 const NormalText = styled(Typography)`
-  text-transform: none; /* Override all caps */
+  text-transform: none !important; /* Override all caps */
 `;
 
 const About = () => {
@@ -23,15 +23,15 @@ const About = () => {
             We connect you with others by forming groups of 3-5 based on your age, location, and shared interests, and assign you an activity to do together. 
           </NormalText>
           <NormalText variant="body1" paragraph>
-            We understand that it can be tough to bring ideas out of the group chat phase. 
-            But we encourage you to take the initiative. 
-            Be the one to send the SMS chat or coordinate a meetup. Trust us, no one will think you're lame for showing interest.
+            We understand that it can be tough for ideas to make it out of the groupchat. 
+            But we encourage you to take initiative. 
+            Be the one to start an SMS chat or coordinate a meetup.
           </NormalText>
           <NormalText variant="body1" paragraph>
-            Our goal is not to become the source of your regular dopamine hits.
-            So we don't offer features common to most social media platforms.
-            It's also why we find your groups for you; there are no doomscrolling traps here. 
-            We want you getting out and enjoying life—REAL life. Connect in person, make memories, and enjoy meaningful interactions.
+            We don't want to become the source of your regular dopamine hits.
+            So we don't offer any of the networking features that you might find on other social media platforms.
+            It's also why we create your groups for you; there are no scrolling traps here. 
+            Our goal is simply to help connect you with people—no gimmicks, no tricks. And definitely no reels.
           </NormalText>
         </Paper>
         <Paper elevation={3} style={{ padding: '20px' }}>
@@ -48,5 +48,6 @@ const About = () => {
 };
 
 export default About;
+
 
 

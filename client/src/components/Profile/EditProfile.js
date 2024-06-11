@@ -19,10 +19,11 @@ import {
   FormControl,
   Box,
   IconButton,
+  CircularProgress,
+  Backdrop,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-const API_URL = process.env.REACT_APP_API_URL;
+import heic2any from 'heic2any';
 
 const predefinedInterests = [
   "Hiking",
@@ -109,27 +110,42 @@ function EditProfile() {
   };
 
   const validateFileType = (file) => {
-    const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/heic'];
     return acceptedTypes.includes(file.type);
   };
 
-  const onDrop = useCallback((acceptedFiles, fileRejections) => {
+  const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
     const validFiles = acceptedFiles.filter(validateFileType);
     if (fileRejections.length > 0 || validFiles.length !== acceptedFiles.length) {
-      alert('Please upload only JPEG, PNG, or JPG files.');
+      alert('Please upload only JPEG, PNG, JPG, or HEIC files.');
       return;
     }
 
     if (validFiles.length > 0) {
       const file = validFiles[0];
       setLoading(true);
-      uploadProfilePic(file);
+
+      if (file.type === 'image/heic') {
+        try {
+          const convertedBlob = await heic2any({
+            blob: file,
+            toType: 'image/jpeg',
+          });
+          const convertedFile = new File([convertedBlob], file.name.replace(/\.[^/.]+$/, ".jpg"), { type: 'image/jpeg' });
+          await uploadProfilePic(convertedFile);
+        } catch (error) {
+          console.error('Error converting HEIC file:', error);
+          setLoading(false);
+        }
+      } else {
+        await uploadProfilePic(file);
+      }
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: 'image/jpeg, image/png, image/jpg', // Accept only images
+    accept: 'image/jpeg, image/png, image/jpg, image/heic',
     maxFiles: 1
   });
 
@@ -345,7 +361,7 @@ function EditProfile() {
             }}
           >
             <input {...getInputProps()} />
-            <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png</Typography>
+            <Typography>Click to upload, or drag & drop a profile picture here! Accepted file types: .jpeg, .jpg, .png, .heic</Typography>
           </Box>
           {profilePicUrl && !imageError && (
             <img
@@ -388,6 +404,9 @@ function EditProfile() {
           </Button>
         </Box>
       </form>
+      <Backdrop style={{ zIndex: 10, color: '#fff' }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }

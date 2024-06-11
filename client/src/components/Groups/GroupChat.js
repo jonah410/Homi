@@ -6,7 +6,7 @@ import { Container, List, ListItem, ListItemText, TextField, Button, Typography,
 import styled from 'styled-components';
 
 const NormalText = styled(Typography)`
-  text-transform: none; /* Override all caps */
+  text-transform: none !important; /* Override all caps */
 `;
 
 const GroupChat = () => {
@@ -170,6 +170,7 @@ const GroupChat = () => {
 };
 
 export default GroupChat;
+
 
 
 
