@@ -6,9 +6,16 @@
     "start": "npm run server",
     "build": "cd client && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install && npm run build",
-    "server": "node server/app.js"
+    "server": "node server/app.js",
+    "capacitor-copy": "npm run build && npx cap copy",
+    "capacitor-open-android": "npm run capacitor-copy && npx cap open android",
+    "capacitor-open-ios": "npm run capacitor-copy && npx cap open ios"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/cli": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/ios": "^6.1.0",
     "@capacitor/push-notifications": "^6.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",

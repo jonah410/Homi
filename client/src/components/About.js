@@ -8,7 +8,7 @@ const NormalText = styled(Typography)`
 
 const About = () => {
   return (
-    <Container>
+    <Container style={{ paddingBottom: '100px' }}> {/* Adjusted paddingBottom */}
       <Box mt={4} mb={4}>
         <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
           <NormalText variant="h4" gutterBottom>
@@ -48,6 +48,8 @@ const About = () => {
 };
 
 export default About;
+
+
 
 
 

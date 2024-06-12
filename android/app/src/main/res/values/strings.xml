@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Homi!</string>
+    <string name="title_activity_main">Homi!</string>
+    <string name="package_name">com.homiapp.app</string>
+    <string name="custom_url_scheme">com.homiapp.app</string>
+</resources>
